@@ -1,0 +1,92 @@
+<ul class="list-group">
+    <li class="list-group-item bg-light">
+
+        <app-top-bar *ngIf="!selectedMode" 
+            [isSelectedIssues]="selectedMode"
+            [selectCheckBox]="mainCheckboxSelected"
+            [selectedCount]="0"
+            (labelEvent)="handleLabelEvent($event)"
+            (checkbox)="handleMainCheckboxClick()">
+        </app-top-bar>
+
+        <app-top-bar *ngIf="selectedMode"
+            [isSelectedIssues]="selectedMode"
+            [selectedCount]="selectedIssuesCount"
+            [selectCheckBox]="mainCheckboxSelected"
+            (labelEvent)="handleLabelEvent($event)"
+            (checkbox)="handleMainCheckboxClick()">
+        </app-top-bar>
+
+    </li>
+    
+    <li class="list-group-item" *ngFor="let issue of issues$ | async | issueState: state | issuesFilter: issuesFilterInput | sort : sort ">
+        <div class="flex">
+            <div>
+                <input type="checkbox" [checked]="issue.isSelected" (click)="handleCheckboxClick(issue)">
+                <span class="margin-left-10">
+                    <fa-icon [icon]="iconService.faExclamationCircle"
+                        [ngClass]="issue.state === 'open' ? 'green' : 'red'"></fa-icon>
+                </span>
+            </div>
+
+            <div class="margin-left-10">
+                <span class="bold d-block" (mouseleave)="pop.hide()">
+
+                    <span class="issue-title pointer" #pop="bs-popover" [popover]="template"
+                        [placement]="'right bottom'" (mouseover)="pop.show()">
+
+                        <ng-template #template>
+                            <div class="mb-2">
+                                {{ issue.url | urlShortener}} on {{ issue.created_at | date : 'mediumDate' }}
+                            </div>
+                            <div>
+                                <fa-icon [icon]="iconService.faExclamationCircle"
+                                    [ngClass]="issue.state === 'open' ? 'green' : 'red'"></fa-icon>
+                                <span class="issue-title pointer">
+                                    {{ issue.title }}
+                                </span>
+                                #{{ issue.number }}
+                            </div>
+                            <div class="mt-2">
+                                <app-label-badge *ngFor="let label of issue.labels" [labelName]="label.name" class="cursor-def"></app-label-badge>
+                            </div>
+                            <hr>
+                            <img [src]="issue.user.avatar_url" alt="avatar" class="tooltip-avatar">
+                            {{ issue.user.login }} opened
+                        </ng-template>
+
+                        {{ issue.title }}
+                    </span>
+
+                    <app-label-badge class="cursor-def" *ngFor="let label of issue.labels" [labelName]="label.name"></app-label-badge>
+
+                </span>
+                <span class="issue-description">
+
+                    <span>
+                        #{{ issue.number }}
+                    </span>
+
+                    <span *ngIf="issue.state === 'open'">
+                        opened {{ dateService.calculateUpdatedAt(issue.created_at).amount }}
+                        {{ dateService.calculateUpdatedAt(issue.created_at).type}}
+                        <span *ngIf="dateService.calculateUpdatedAt(issue.created_at).type !== 'now'">
+                            ago
+                        </span>
+                        by {{ issue.user.login }}
+                    </span>
+
+                    <span *ngIf="issue.state === 'closed'">
+                        by {{ issue.user.login }} was closed
+                        {{ dateService.calculateUpdatedAt(issue.closed_at).amount ? dateService.calculateUpdatedAt(issue.closed_at).amount : '' }}
+                        {{ dateService.calculateUpdatedAt(issue.closed_at).type }}
+                        <span *ngIf="dateService.calculateUpdatedAt(issue.closed_at).type !== 'now'">
+                            ago
+                        </span>
+                    </span>
+                </span>
+            </div>
+
+        </div>
+    </li>
+</ul>

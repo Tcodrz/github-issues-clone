@@ -1,0 +1,26 @@
+<div class="row mb-3">
+
+    <div class="col-lg-8">
+        <app-dropdown [type]="'Filters'" (itemSelect)="handleFilter($event)"></app-dropdown>
+
+        <form class="d-inline input-form">
+            <fa-icon [icon]="iconService.faSearch" class="search-icon"></fa-icon>
+            <input type="text" class="filters-input" #filter (keyup)="onFilterIssues(filter.value)">
+        </form>
+    </div>
+
+    <div class="col-lg-4">
+        <button class="btn btn-success btn-sm fa-pull-right new-issue-btn">New issue</button>
+        <a class="badge-item labels">
+            <fa-icon [icon]="iconService.faTag" class="tag-icon"></fa-icon>
+            Labels
+            <span class="counter">
+                {{ labelsLength }}
+            </span>
+        </a>
+        <a class="badge-item milestones">
+            <fa-icon [icon]="iconService.faMapSigns" class="sign-icon"></fa-icon>
+            Milestones 
+        </a>
+    </div>
+</div>

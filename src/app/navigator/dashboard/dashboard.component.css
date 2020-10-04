@@ -1,0 +1,18 @@
+.dashboard {
+    background-color: #fafbfc;
+    padding: 1.5rem;
+    border-bottom: 1px solid #e1e4e8;
+}
+
+.user-details {
+    display: inline;
+    font-size: 1.25rem;
+    margin-left: 32px;
+}
+.icon {
+
+    position: absolute;
+    font-size: 0.85rem;
+    top: 86px;
+    left: 35px;
+}

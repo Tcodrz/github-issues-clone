@@ -1,0 +1,46 @@
+.dropdown-title {
+    font-size: 12px;
+    padding: 0 2rem;
+    cursor: default;
+    font-weight: 500;
+    margin-left: -23px;
+    color: #24292e;
+}
+.dropdown-toggle {
+    font-size: 14px;
+}
+.dropdown-title:hover {
+    background-color: inherit;
+}
+.dropdown-label {
+    font-size: 13px;
+    font-weight: 500;
+}
+.dropdown-label-description{ 
+    font-size: 12px;
+    font-weight: 300;
+    margin-left: 24px;
+}
+.dropdown-label-filter{ 
+    padding: 0 5px 7px;
+}
+.check-icon {
+    margin-left: -20px;
+}
+.circle-icon {
+    margin-left: 6px;
+    margin-right: 2px;
+}
+.label-filter-input {
+    font-size: .9rem;
+}
+.line-height-1 {
+    line-height: 1;
+}
+.times-icon {
+    font-size: 13px;
+    color: #586069;
+}
+.times-icon:hover {
+    color: #24292e;
+}

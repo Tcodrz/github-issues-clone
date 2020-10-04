@@ -1,0 +1,35 @@
+
+.dropdown-menu-container {
+    float: right;
+    margin-left: 2rem;
+}
+
+.top-bar {
+    padding: 0.55rem 0;
+}
+.exclemation-icon {
+    color: var(--background-color-light);
+    border-radius: 100%;
+    padding: 0 2px;
+    font-size: 14px;
+    margin-right: 5px;
+}
+.open-counter {
+    margin-left: 10px;
+}
+.check-icon {
+    margin-right: 5px;
+    font-size: 14px;
+}
+.bg-color-dark {
+    background-color: #24292e;
+}
+.bg-color-light {
+    background-color: #586069;
+}
+.color-dark {
+    color: #24292e;
+}
+.color-light {
+    color: #586069;
+}

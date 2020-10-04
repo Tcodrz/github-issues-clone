@@ -1,0 +1,9 @@
+.labelTag {
+    display: inline-block;
+    text-decoration: none;
+    color: white;
+    padding: 5px 10px;
+    font-weight: 500;
+    margin: 2px;
+  }
+  

@@ -1,1 +1,49 @@
 /* You can add global styles to this file, and also import other style files */
+@import './assets/bootstrap.css';
+
+:root {
+    --link-hover-color: #0366d6;
+    --red-color: #cb2431;
+    --green-color:   #28a745;
+    --background-color-light: #f6f8fa;
+    --text-color: #24292e;
+}
+
+.pointer {
+    cursor: pointer;
+}
+.cursor-def {
+    cursor: default;
+}
+.dropdown-menu-button{ 
+    position: relative;
+    display: inline-flex;
+}
+.dropdown-menu-button-link {
+    text-decoration: none;
+    color: inherit;
+}
+.dropdown-menu-button-link:hover {
+    text-decoration: none;
+    color: inherit;
+}
+.margin-left-10 {
+    margin-left: 10px;
+}
+.flex {
+    display: flex;
+}
+.bold {
+    font-weight: 500;
+}
+
+.dropdown-hr {
+    margin: 0;
+    margin-top: 3px;
+}
+.font-size-12 {
+    font-size: 12px;
+}
+.font-size-14 {
+    font-size: 14px;
+}

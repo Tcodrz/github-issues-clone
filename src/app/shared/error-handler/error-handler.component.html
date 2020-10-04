@@ -1,0 +1,22 @@
+<ng-template #template>
+
+    <div class="modal-body text-center">
+        <button type="button" class="close pull-right" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="text-danger">Error!</h4>
+        <div>
+            <span class="content">
+                {{ appError.statusCode }}
+            </span>
+        </div>
+        <div>
+            <span class="content">
+                {{ appError.message }}
+            </span>
+        </div>
+
+
+
+    </div>
+</ng-template>

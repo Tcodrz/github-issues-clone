@@ -1,0 +1,43 @@
+
+<app-navbar></app-navbar>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col">
+
+
+            <form class="w-50 m-auto">
+
+                <div class="form-group" *ngIf="showTokenInput">
+                    <label for="token">Enter your Github personal access token (PAT) : </label>
+
+                    <input type="text" class="form-control" #token>
+                    <div>
+                        <button type="button" class="btn btn-success float-right mt-2"
+                            (click)="sendToken(token.value)">Next</button>
+                    </div>
+                </div>
+
+                <div class="form-group" *ngIf="showUsernameInput">
+                    <label for="usename">Enter your Github username: </label>
+                    <input type="text" class="form-control" #username>
+                    <div>
+                        <button type="button" class="btn btn-success float-right mt-2" 
+                            (click)="sendUserName(username.value)">Next</button>
+                    </div>
+                </div>
+
+                <div class="form-group" *ngIf="showRepoInput">
+                    <label for="reponame">Select a repository: </label>
+                    <select #repoName class="form-control">
+                        <option value=""></option>
+                        <option *ngFor="let repo of repos"> {{ repo.name }} </option>
+                    </select>
+                    <button type="button" class="btn btn-outline-success btn-block mt-2" (click)="sendRepoName(repoName.value)">Login</button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>

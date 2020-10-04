@@ -1,0 +1,79 @@
+<div class="top-bar">
+
+    <span>
+        <input type="checkbox" (click)="sendCheckboxEvent()" [checked]="selectCheckBox">
+    </span>
+
+    <span *ngIf="selectedCount < 1">
+
+        <span class="pointer margin-left-10"
+            [ngClass]="listState === 'open' ? 'bold' : ''"
+            (click)="handleDropDownClick({type:'state', name: 'open', isSelected: true})">
+
+            <fa-icon [icon]="iconService.faExclamationCircle" class="exclemation-icon"
+                [ngClass]="listState === 'open' ? 'bg-color-dark' : 'bg-color-light'"></fa-icon>
+
+            {{ openIssuesCount | async }} Open
+
+        </span>
+
+        <span class="pointer margin-left-10"
+            [ngClass]="listState === 'closed' ? 'bold' : ''"
+            (click)="handleDropDownClick({type:'state', name: 'closed', isSelected: true})">
+
+            <fa-icon [icon]="iconService.faCheck" class="check-icon"
+                [ngClass]="listState === 'closed' ? 'color-dark' : 'color-light'"></fa-icon>
+
+            {{ closedIssuesCount | async }} closed
+
+        </span>
+    </span>
+
+    <span *ngIf="selectedCount > 0" class="margin-left-10">
+        {{ selectedCount }} selected
+    </span>
+
+    <div *ngIf="!isSelectedIssues" class="d-inline">
+        <span class="dropdown-menu-container">
+            <app-dropdown [type]="'Sort'" (itemSelect)="handleDropDownClick($event)"></app-dropdown>
+        </span>
+
+        <span class="dropdown-menu-container">
+            <app-dropdown [type]="'Assignee'" (itemSelect)="handleDropDownClick($event)"></app-dropdown>
+        </span>
+
+        <span class="dropdown-menu-container">
+            <app-dropdown [type]="'Milestones'" (itemSelect)="handleDropDownClick($event)"></app-dropdown>
+        </span>
+
+        <span class="dropdown-menu-container">
+            <app-dropdown [type]="'Projects'" (itemSelect)="handleDropDownClick($event)"></app-dropdown>
+        </span>
+
+        <span class="dropdown-menu-container">
+            <app-label-dropdown [type]="'filter'" (labelEvent)="handleLabelEvent($event)">
+            </app-label-dropdown>
+        </span>
+
+        <span class="dropdown-menu-container">
+            <app-dropdown [type]="'Author'" (itemSelect)="handleDropDownClick($event)"></app-dropdown>
+        </span>
+    </div>
+
+    <div *ngIf="isSelectedIssues" class="d-inline">
+        <span class="dropdown-menu-container">
+            <app-dropdown [type]="'Assign'" (itemSelect)="handleDropDownClick($event)"></app-dropdown>
+        </span>
+        <span class="dropdown-menu-container">
+            <app-dropdown [type]="'Milestone'" (itemSelect)="handleDropDownClick($event)"></app-dropdown>
+        </span>
+        <span class="dropdown-menu-container">
+            <app-label-dropdown [type]="'select'" (labelEvent)="handleLabelEvent($event)">
+            </app-label-dropdown>
+        </span>
+
+        <span class="dropdown-menu-container">
+            <app-dropdown [type]="'Mark as'" (itemSelect)="handleDropDownClick($event)"></app-dropdown>
+        </span>
+    </div>
+</div>

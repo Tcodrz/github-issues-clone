@@ -1,0 +1,8 @@
+<div *ngIf="label" class="labelTag badge badge-pill" 
+        [style.backgroundColor]="'#' + label.color"
+        [style.color]="label.color === 'd73a4a' || 
+                        label.color === '0075ca' || 
+                        label.color === '7057ff' || 
+                        label.color === '008672' ? 'white' : 'black'">
+    {{ label.name }} 
+</div>

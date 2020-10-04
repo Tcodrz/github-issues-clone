@@ -1,0 +1,43 @@
+.green {
+    background-color: var(--green-color);
+    color: white;
+    border-radius: 100%;
+    padding: 0 2px;
+    font-size: 14px;
+}
+.red {
+    background-color: var(--red-color);
+    color: white;
+    border-radius: 100%;
+    padding: 0 2px;
+    font-size: 14px;
+}
+.issue-title {
+    color: #24292e;
+    font-size: 16px;
+    opacity: 1;
+}
+.issue-title:hover {
+    color: var(--link-hover-color);
+}
+.issue-description {
+    font-size: 12px;
+    color: #586069;
+}
+:host >>> .tooltip-inner {
+    background-color: #fff;
+    color: #24292e;
+    font-size: 14px;
+    line-height: 1.5;
+    max-width: 20rem;
+    padding: 1rem;
+    border: 1px solid #e1e4e8;
+    opacity: 1 !important;
+}
+.tooltip-avatar {
+    border-radius: 100%;
+    width: 1.3rem;
+}
+.list-group-item:hover {
+    background-color: var(--background-color-light);
+}
