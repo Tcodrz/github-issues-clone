@@ -246,8 +246,8 @@ export class IssueListService {
           // add label to issue
           const issueLabels = issue.labels;
           const i = this.issues.findIndex(x => x.number === issue.number);
-          this.issues[i].labels = issueLabels;
           issueLabels.push(label);
+          this.issues[i].labels = issueLabels;
           this.activeLabels[label.name] = true;
           this.apiService.updateIssueLabels(issue.number, issueLabels).then(x => x);
         }

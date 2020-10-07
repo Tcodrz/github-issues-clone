@@ -14,12 +14,16 @@ export interface DropDownItem {
 })
 export class DropdownComponent implements OnInit {
 
+  @Input() position: string;
+
   @Input() type: string;
   subtitle: string;
 
   @Output() itemSelect: EventEmitter<DropDownItem> = new EventEmitter();
 
   items: any[] = [];
+
+  selectedItems: DropDownItem[] = [];
 
   sortItems: DropDownItem[] = [
     {

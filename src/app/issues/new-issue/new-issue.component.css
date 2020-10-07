@@ -1,0 +1,20 @@
+.title {
+    font-weight: 400;
+    font-size: 32px;
+    color: #24292e;
+}
+
+.light-back-btn {
+    color: #24292e;
+    font-size: 14px;
+    text-decoration: none;
+    border: 1px solid #e1e4e8;
+    line-height: 20px;
+    font-weight: 500;
+    padding: 4px 16px;
+    cursor: pointer;
+    border-radius: 6px;
+}
+.light-back-btn:hover{ 
+    background-color: #f6f8fa;
+}

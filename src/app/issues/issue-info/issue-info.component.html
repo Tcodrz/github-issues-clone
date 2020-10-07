@@ -1,0 +1,99 @@
+<app-dashboard></app-dashboard>
+
+<div class="container mt-5" *ngIf="issue" >
+
+    <div class="row">
+
+        <div class="col-lg-12">
+            
+            <span class="title">
+                <span *ngIf="!titleEditMode">
+                    {{ issue.title }} <span class="issue-number"> #{{ issue.number }} </span>
+                </span>
+
+                <form *ngIf="titleEditMode">
+                    <input type="text" class="form-control title-edit-input" name="title" [(ngModel)]="issue.title" autofocus>  
+                </form>
+                
+            </span>
+
+            <div class="buttons" *ngIf="!titleEditMode">
+
+                <button class="btn btn-success btn-sm new-issue-btn fa-pull-right" routerLink="/new-issue">
+                    New issue
+                </button>
+                <button class="edit-btn fa-pull-right" (click)="titleEditMode = true">Edit</button>
+
+            </div>
+            <div class="buttons-edit d-inline-block" *ngIf="titleEditMode">
+
+                <a class="fa-pull-right pointer cancel-btn" (click)="titleEditMode = false">Cancel</a>
+                <button class="save-btn fa-pull-right" (click)="saveTitle()">Save</button>
+
+            </div>
+            
+            <br>
+
+            <div class="mt-2">
+
+                
+                <span class="issue-state-badge" [ngClass]="issue.state === 'open' ? 'bg-green' : 'bg-red'">
+                    
+                    <fa-icon class="icon-exclemation" [ngClass]="issue.state === 'open' ? 'c-green' : 'c-red'" [icon]="iconService.faExclamationCircle"></fa-icon>
+                    
+                    
+                        {{ issue.state | titlecase }}
+                </span>
+
+                &nbsp;
+                
+                <span class="issue-info">
+                    
+                    <span class="bold">
+                        {{ issue.user.login }}
+                    </span>
+                    
+                    opened this issue 
+                    
+                    <span *ngIf="dateService.calculateUpdatedAt(issue.created_at).type !== 'now'">
+                        {{ dateService.calculateUpdatedAt(issue.created_at).amount }} 
+                    </span>
+                    
+                    {{ dateService.calculateUpdatedAt(issue.created_at).type }}
+                    
+                    <span *ngIf="dateService.calculateUpdatedAt(issue.created_at).type !== 'now'">
+                        ago.
+                    </span>
+
+                    <span>
+                        {{issue.comments}} comments
+                    </span>
+                    
+                    
+                </span>
+            </div>
+            
+        </div>
+
+    </div>
+
+    <hr>
+
+    <div class="row">
+
+
+        <div class="col-lg-9">
+
+            <app-timeline [issue]="issue"></app-timeline>
+
+        </div>
+
+        <div class="col-lg-3">
+
+            <app-side-bar (labels)="handleLabelEvent($event)"></app-side-bar>
+
+        </div>
+
+    </div>
+
+</div>

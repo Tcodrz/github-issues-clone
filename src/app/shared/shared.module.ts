@@ -1,5 +1,6 @@
 import { LoaderComponent } from './loader/loader.component';
 import { ErrorHandlerComponent } from './error-handler/error-handler.component';
+import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DropdownComponent } from './dropdown/dropdown.component';
@@ -13,6 +14,7 @@ import { FormsModule } from '@angular/forms';
 import { SortPipe } from './pipes/sort.pipe';
 import { IssueStatePipe } from './pipes/issue-state.pipe';
 import { IssuesFilterPipe } from './pipes/issues-filter.pipe';
+import { TextEditorComponent } from './text-editor/text-editor.component';
 
 
 @NgModule({
@@ -26,13 +28,15 @@ import { IssuesFilterPipe } from './pipes/issues-filter.pipe';
     IssueStatePipe,
     ErrorHandlerComponent,
     LoaderComponent,
-    IssuesFilterPipe
+    IssuesFilterPipe,
+    TextEditorComponent
   ],
   imports: [
     CommonModule,
+    BrowserModule,
     BsDropdownModule.forRoot(),
     FontAwesomeModule,
-    FormsModule
+    FormsModule,
   ],
   exports: [
     DropdownComponent,
@@ -44,7 +48,8 @@ import { IssuesFilterPipe } from './pipes/issues-filter.pipe';
     IssueStatePipe,
     ErrorHandlerComponent,
     LoaderComponent,
-    IssuesFilterPipe
+    IssuesFilterPipe,
+    TextEditorComponent
   ]
 })
 export class SharedModule { }

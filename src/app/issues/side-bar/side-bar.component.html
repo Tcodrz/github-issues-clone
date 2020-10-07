@@ -1,0 +1,20 @@
+<ul class="side-bar mt-3">
+    <li>
+        <app-dropdown [type]="'Assignees'" [position]="'sidebar'"></app-dropdown>
+    </li>
+    <hr>
+    <li>
+        <app-label-dropdown 
+            [type]="'select'" [position]="'sidebar'"
+            (labelArray)="handleLabelEvent($event);"></app-label-dropdown>
+    </li>
+    <hr>
+    <li>
+        <app-dropdown [type]="'Projects'" [position]="'sidebar'"></app-dropdown>
+    </li>
+    <hr>
+    <li>
+        <app-dropdown [type]="'Milestones'" [position]="'sidebar'"></app-dropdown>
+    </li>
+    <hr>
+</ul>

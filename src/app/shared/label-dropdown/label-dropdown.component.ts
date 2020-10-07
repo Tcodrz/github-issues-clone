@@ -12,17 +12,21 @@ import { Label } from '../interface/label.interface';
 export class LabelDropdownComponent implements OnInit {
 
   @Input() type: string;
+  @Input() position: string;
 
   @Output() labelEvent: EventEmitter<Label> = new EventEmitter();
+  @Output() labelArray: EventEmitter<Label[]> = new EventEmitter();
 
   title = 'Labels';
   subtitle: string;
 
-  labels: Observable<Label[]>;
+  labels: Label[] = [];
 
   holdDropdown = false;
 
   filterInput: string;
+
+  selectedLabels: Label[] = [];
 
   constructor(
     private labelService: LabelService,
@@ -31,7 +35,14 @@ export class LabelDropdownComponent implements OnInit {
 
   ngOnInit(): void {
     this.labelService.getLabelsFromApi().then(() => {
-      this.labels = this.labelService.getAllLabels().asObservable();
+      this.labelService.getAllLabels().subscribe(labels => {
+        this.labels = labels;
+        this.labels.forEach(label => {
+          if (label.isSelected) {
+            this.selectedLabels.push(label);
+          }
+        });
+      });
 
       if (this.type === 'select') {
         this.subtitle = 'Apply labels';
@@ -45,10 +56,18 @@ export class LabelDropdownComponent implements OnInit {
 
   sendEvent(label: Label): void {
     this.labelEvent.emit(label);
+    this.labelArray.emit(this.selectedLabels);
   }
 
-  resetAllLabels(): void {
-    this.labelService.unSelectAllLabels();
+  addSelectedLabel(label: Label): void {
+    const index = this.selectedLabels.findIndex(x => x.id === label.id);
+    if (index < 0) {
+      this.selectedLabels.push(label);
+      label.isSelected = true;
+    } else {
+      this.selectedLabels.splice(index, 1);
+      label.isSelected = false;
+    }
   }
 
 

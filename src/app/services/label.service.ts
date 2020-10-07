@@ -29,14 +29,15 @@ export class LabelService {
 
   getLabelsFromApi(): Promise<void> {
     return new Promise((resolve) => {
-      this.apiService.getLabels().subscribe((labels) => {
-        this.labels = labels;
-        this.labels$.next(labels);
-        this.labels.forEach(issue => issue['isSelected'] = false);
-        this.getActiveLabels();
-        resolve();
-      });
-
+      this.apiService.getUserDetails().then(() => {
+        this.apiService.getLabels().subscribe((labels) => {
+          this.labels = labels;
+          this.labels$.next(labels);
+          this.labels.forEach(issue => issue['isSelected'] = false);
+          this.getActiveLabels();
+          resolve();
+        });
+      })
     });
   }
 

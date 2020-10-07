@@ -1,0 +1,113 @@
+.title {
+  font-size: 32px;
+}
+.issue-number {
+  color: #6a737d;
+  font-weight: 300;
+}
+.issue-state-badge {
+  padding: 5px 12px;
+  border-radius: 1rem;
+  color: #fff;
+  font-weight: 500;
+}
+
+.issue-info {
+  color: #586069;
+}
+
+.icon-exclemation {
+  background-color: #fff;
+  border-radius: 100%;
+  padding: 0 2px;
+  font-size: 14px;
+}
+
+.buttons {
+    position: absolute;
+    right: 15px;
+    top: 18px;
+    width: 100%;
+  }
+  .buttons-edit {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    width: 11%;
+}
+.new-issue-btn {
+  padding-bottom: 5.5px;
+  width: 8%;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  border-radius: 6px;
+}
+.new-issue-btn:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.edit-btn {
+  color: #24292e;
+  font-size: 14px;
+  text-decoration: none;
+  border: 1px solid #e1e4e8;
+  line-height: 20px;
+  font-weight: 500;
+  padding: 4px 16px;
+  cursor: pointer;
+  border-radius: 6px;
+  background-color: #fafbfc;
+  margin-right: 10px;
+}
+.edit-btn:hover{ 
+    background-color: #f6f8fa;
+}
+.edit-btn:focus {
+    outline: none;
+}
+.save-btn {
+  color: #24292e;
+  font-size: 14px;
+  text-decoration: none;
+  border: 1px solid #e1e4e8;
+  line-height: 20px;
+  font-weight: 500;
+  padding: 6px 16px;
+  cursor: pointer;
+  border-radius: 6px;
+  background-color: #fafbfc;
+  margin-right: 10px;
+}
+.save-btn:hover {
+  background-color: #f6f8fa;
+}
+.save-btn:focus {
+  outline: none;
+}
+.cancel-btn {
+  padding-top: 5px;
+}
+
+.title-edit-input {
+  width: 88%;
+  height: 2rem;
+  margin-top: 16px;
+}
+.title-edit-input:focus {
+  outline: none;
+}
+
+.c-green {
+  color: #28a745;
+}
+.c-red {
+  color: #d73a49;
+}
+.bg-green {
+  background-color: #28a745;
+}
+.bg-red {
+  background-color: #d73a49;
+}

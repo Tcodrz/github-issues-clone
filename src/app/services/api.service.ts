@@ -6,6 +6,8 @@ import { Injectable } from '@angular/core';
 import { User } from '../shared/interface/user.interface';
 import { Repo } from './../shared/interface/repo.interface';
 import { Issue } from './../shared/interface/issue.interface';
+import { IssueEvent } from '../shared/interface/event.interface';
+import { IssueComment } from '../shared/interface/comment.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -42,6 +44,16 @@ export class ApiService {
     return this.http.get<Issue[]>(`${this.apiUrl}/repos/${this.userDetails.username}/${this.userDetails.repoName}/issues?state=all`);
   }
 
+  getIssueByNumber(issueNumber: number): Observable<Issue> {
+    return this.http.get<Issue>(`${this.apiUrl}/repos/${this.userDetails.username}/${this.userDetails.repoName}/issues/${issueNumber}`);
+  }
+
+  createNewIssue(issue: Issue): Observable<Issue> {
+    return this.http.post<Issue>(
+      `${this.apiUrl}/repos/${this.userDetails.username}/${this.userDetails.repoName}/issues`, issue
+    );
+  }
+
   updateIssueLabels(issueNumber: number, labels: Label[]): Promise<Issue> {
     return this.http.patch<Issue>(
       `${this.apiUrl}/repos/${this.userDetails.username}/${this.userDetails.repoName}/issues/${issueNumber}`,
@@ -49,14 +61,26 @@ export class ApiService {
   }
 
   markIssueOpen(issue: Issue): void {
-    this.http.patch<Issue>
-      (`${this.apiUrl}/repos/${this.userDetails.username}/${this.userDetails.repoName}/issues/${issue.number}`, {state: 'open'})
-        .subscribe();
+    this.http.patch<Issue>(
+      `${this.apiUrl}/repos/${this.userDetails.username}/${this.userDetails.repoName}/issues/${issue.number}`, {state: 'open'}
+    ).subscribe();
   }
   markIssueClosed(issue: Issue): void {
-    this.http.patch<Issue>
-      (`${this.apiUrl}/repos/${this.userDetails.username}/${this.userDetails.repoName}/issues/${issue.number}`, { state: 'closed' })
-        .subscribe();
+    this.http.patch<Issue>(
+      `${this.apiUrl}/repos/${this.userDetails.username}/${this.userDetails.repoName}/issues/${issue.number}`, { state: 'closed' }
+    ).subscribe();
+  }
+
+  getIssueEvents(issueNumber: number, pageNumber: number): Observable<IssueEvent[]> {
+    return this.http.get<IssueEvent[]>(
+      `${this.apiUrl}/repos/${this.userDetails.username}/${this.userDetails.repoName}/issues/${issueNumber}/events?per_page=100&page=${pageNumber}`
+    );
+  }
+
+  getIssueComments(issueNumber: number): Observable<IssueComment[]> {
+    return this.http.get<IssueComment[]>(
+      `${this.apiUrl}/repos/${this.userDetails.username}/${this.userDetails.repoName}/issues/${issueNumber}/comments`
+    );
   }
 
   getLabels(): Observable<Label[]> {

@@ -42,7 +42,7 @@
                             <div>
                                 <fa-icon [icon]="iconService.faExclamationCircle"
                                     [ngClass]="issue.state === 'open' ? 'green' : 'red'"></fa-icon>
-                                <span class="issue-title pointer">
+                                <span class="issue-title pointer" [routerLink]="['/issue', issue.number]">
                                     {{ issue.title }}
                                 </span>
                                 #{{ issue.number }}
@@ -55,7 +55,9 @@
                             {{ issue.user.login }} opened
                         </ng-template>
 
-                        {{ issue.title }}
+                        <span [routerLink]="['/issue', issue.number]">
+                            {{ issue.title }}
+                        </span>
                     </span>
 
                     <app-label-badge class="cursor-def" *ngFor="let label of issue.labels" [labelName]="label.name"></app-label-badge>

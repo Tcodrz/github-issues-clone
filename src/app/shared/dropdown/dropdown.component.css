@@ -17,6 +17,37 @@
 .dropdown-title:hover{
     background-color: transparent;
 }
+.dropdown-title-lg {
+    color: #586069;
+    font-size: 13px;
+    margin-left: -1px;
+    font-weight: 500;
+    cursor: pointer;
+}
+.dropdown-title-lg:hover { 
+    color: var(--link-hover-color);
+}
+.items-counter {
+    color: #586069;
+    font-size: 13px;
+    margin-left: -1px;
+    font-weight: 400;
+    cursor: default;
+}
+
+.filter-dropdown {
+    border: 1px solid rgba(27,31,35,.15);
+    padding: 5.2px 14px;
+    border-radius: 6px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    background-color: #fafbfc;
+    font-weight: 500;
+    color: #444d56;
+}
+.filter-dropdown:hover {
+    background-color: #f3f4f6;
+}
 
 .times-icon {
     font-size: 13px;
@@ -41,6 +72,10 @@
     border-radius: 6px;
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
+}
+.cog-icon {
+    position: absolute;
+    right: 1px;
 }
 
 

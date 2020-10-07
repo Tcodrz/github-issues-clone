@@ -1,0 +1,288 @@
+<div class="timeline-comment mt-3">
+    <span>
+        <img [src]="issue.user.avatar_url" class="timeline-comment-avatar" alt="">
+    </span>
+
+    <div class="card">
+
+        <div class="card-header">
+
+            <span class="bold color-black">
+                {{ issue.user.login }}
+            </span>
+
+            commented
+
+            <span *ngIf="dateService.calculateUpdatedAt(issue.created_at).type !== 'now'">
+                {{ dateService.calculateUpdatedAt(issue.created_at).amount }}
+            </span>
+
+            {{ dateService.calculateUpdatedAt(issue.created_at).type }}
+            <span *ngIf="dateService.calculateUpdatedAt(issue.created_at).type !== 'now'">
+                ago
+            </span>
+
+            <fa-icon [icon]="iconService.faEllipsisH" class="fa-pull-right"></fa-icon>
+
+        </div>
+
+        <div class="card-body">
+
+            <span *ngIf="issue.body">
+                {{ issue.body }}
+            </span>
+
+            <span *ngIf="!issue.body" class="font-italic">
+                No description provided.
+            </span>
+
+        </div>
+
+    </div>
+</div>
+
+<div *ngFor="let date of eventDates">
+
+    <div *ngIf="events[date]">
+
+        <!-- LABEL EVENTS -->
+
+        <div *ngIf="events[date].labeled.length > 0">
+
+            <div class="timeline-event">
+
+                <span class="icon-background">
+
+                    <fa-icon [icon]="iconService.faTag" class="icon"></fa-icon>
+
+                </span>
+
+                <span>
+                    <img [src]="events[date].labeled[0].actor.avatar_url" class="avatar-small" alt="">
+                </span>
+
+                <span class="bold">
+                    {{ events[date].labeled[0].actor.login }}
+                </span>
+
+                added
+
+                <app-label-badge *ngFor="let label of events[date].labeled" [labelName]="label.label.name">
+                </app-label-badge>
+
+                
+                <span *ngIf="events[date].unlabeled.length > 0">
+                    and removed
+
+                    <app-label-badge *ngFor="let event of events[date].unlabeled" [labelName]="event.label.name">
+                    </app-label-badge>
+
+                </span>
+
+                <span *ngIf="dateService.calculateUpdatedAt(events[date].labeled[0].created_at).type !== 'now'">
+                    {{ dateService.calculateUpdatedAt(events[date].labeled[0].created_at).amount }}
+                </span>
+
+                {{ dateService.calculateUpdatedAt(events[date].labeled[0].created_at).type }}
+
+                <span *ngIf="dateService.calculateUpdatedAt(events[date].labeled[0].created_at).type !== 'now'">
+                    ago
+                </span>
+
+            </div>
+
+        </div>
+
+        <!-- RENAME EVENTS -->
+
+        <div *ngIf="events[date].renamed.length > 0">
+
+            <div *ngFor="let event of events[date].renamed">
+
+
+                <div class="timeline-event">
+
+                    <span class="icon-background">
+                        <fa-icon class="icon" [icon]="iconService.faPen"></fa-icon>
+                    </span>
+
+                    <span>
+                        <img [src]="events[date].renamed[0].actor.avatar_url" class="avatar-small" alt="">
+                    </span>
+
+                    <span class="bold">
+                        {{ events[date].renamed[0].actor.login }}
+                    </span>
+
+                    changed the title
+
+                    <span class="cross-text">
+                        {{ event.rename.from }}
+                    </span>
+
+                    to
+
+                    <span class="bold">
+                        {{ event.rename.to }}
+                    </span>
+
+                    <span *ngIf="dateService.calculateUpdatedAt(event.created_at).type !== 'now'">
+                        {{ dateService.calculateUpdatedAt(event.created_at).amount}}
+                    </span>
+
+                    {{ dateService.calculateUpdatedAt(event.created_at).type }}
+
+                    <span *ngIf="dateService.calculateUpdatedAt(event.created_at).type !== 'now'">
+                        ago
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- CLOSED EVENTS -->
+
+        <div *ngIf="events[date].closed.length > 0">
+
+            <div *ngFor="let event of events[date].closed">
+
+                <div class="timeline-event">
+
+                    <span>
+                        <fa-icon [icon]="iconService.faBan" class="state-circle-icon" [style.color]="'red'">
+                        </fa-icon>
+                    </span>
+
+                    <span>
+                        <img [src]="event.actor.avatar_url" class="avatar-small" alt="">
+                    </span>
+
+                    <span class="bold">
+                        {{ event.actor.login }}
+                    </span>
+
+                    closed this
+
+                    <span *ngIf="dateService.calculateUpdatedAt(event.created_at).type !== 'now'">
+                        {{ dateService.calculateUpdatedAt(event.created_at).amount}}
+                    </span>
+
+                    {{ dateService.calculateUpdatedAt(event.created_at).type }}
+
+                    <span *ngIf="dateService.calculateUpdatedAt(event.created_at).type !== 'now'">
+                        ago
+                    </span>
+
+                    <div *ngIf="event.event === 'closed'" class="closed-issue-hr"></div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- REOPENED EVENTS -->
+
+        <div *ngIf="events[date].reopened.length > 0">
+
+            <div *ngFor="let event of events[date].reopened">
+
+                <div class="timeline-event">
+
+                    <span>
+                        <fa-icon [icon]="iconService.faDotCircle"
+                        class="state-circle-icon"
+                        [style.color]="'green'"></fa-icon>
+                    </span>
+
+                    <span>
+                        <img [src]="event.actor.avatar_url" class="avatar-small" alt="">
+                    </span>
+
+                    <span class="bold">
+                        {{ event.actor.login }}
+                    </span>
+
+                    reopened this
+
+                    <span *ngIf="dateService.calculateUpdatedAt(event.created_at).type !== 'now'">
+                        {{ dateService.calculateUpdatedAt(event.created_at).amount}}
+                    </span>
+
+                    {{ dateService.calculateUpdatedAt(event.created_at).type }}
+
+                    <span *ngIf="dateService.calculateUpdatedAt(event.created_at).type !== 'now'">
+                        ago
+                    </span>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+        <!-- COMMENTS -->
+
+        <div *ngIf="events[date].comment.length > 0">
+
+            <div *ngFor="let event of events[date].comment">
+
+                <div class="timeline-comment pt-2 pb-2">
+
+                    
+                    <span>
+                        <img [src]="event.actor.avatar_url" class="timeline-comment-avatar" alt="">
+                    </span>
+                    
+                    <div class="card">
+                        
+                        <div class="card-header">
+                            
+                            <span class="bold color-black">
+                                {{ event.actor.login }}
+                            </span>
+                            
+                            commented
+                            
+                            <span *ngIf="dateService.calculateUpdatedAt(issue.created_at).type !== 'now'">
+                                {{ dateService.calculateUpdatedAt(issue.created_at).amount }}
+                            </span>
+                            
+                            {{ dateService.calculateUpdatedAt(issue.created_at).type }}
+                            <span *ngIf="dateService.calculateUpdatedAt(issue.created_at).type !== 'now'">
+                                ago
+                            </span>
+                            
+                            <fa-icon [icon]="iconService.faEllipsisH" class="fa-pull-right"></fa-icon>
+                            
+                        </div>
+                        
+                        <div class="card-body">
+                            
+                            <span>
+                                {{ event.comment }}
+                            </span>
+                            
+                        </div>
+                        
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<div>
+    <app-text-editor 
+    [type]="'comment'" 
+    [issue]="issue"
+    (reopenIssue)="handleReopenEvent()"
+    (closeIssue)="handleCloseEvent()"
+    (comment)="handleCommentEvent($event)">
+    </app-text-editor>
+</div>

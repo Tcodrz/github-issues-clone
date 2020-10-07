@@ -1,11 +1,22 @@
 
-<span class="dropdown-menu-container" >
-    <div class="dropdown-menu-button" dropdown [insideClick]="holdDropdown">
+<span class="dropdown-menu-container" [ngClass]="type === 'Filters' ? 'filter-dropdown' : ''">
+    <div class="dropdown-menu-button" dropdown [insideClick]="holdDropdown"
+    [ngClass]="position === 'sidebar' ? 'd-block' : ''">
         <a dropdownToggle type="button" [ngClass]="type === 'Filters' ? 'filters-btn' : ''"
-          class="dropdown-toggle dropdown-menu-button-link">
+          class="dropdown-menu-button-link"
+          [ngClass]="position !== 'sidebar' ? 'dropdown-toggle' : 'dropdown-title-lg'">
                 {{ type }} 
-                <span class="caret"></span>
+              <fa-icon [icon]="iconService.faCog" *ngIf="position === 'sidebar'" class="cog-icon"></fa-icon>
         </a>
+
+        <div *ngIf="position === 'sidebar'">
+          <span class="items-counter">
+            {{ selectedItems.length < 1  && type ==='Projects' ? 'None yet' : ''}}
+            {{ selectedItems.length < 1 && type === 'Assignees' ? 'No one - assign yourself' : '' }}
+            {{ selectedItems.length < 1 && type === 'Milestones' ? 'No milestones' : '' }}
+          </span>
+        </div>
+
         <ul *dropdownMenu class="dropdown-menu" role="menu">
           <li role="menuitem" class="font-size-12 dropdown-title-container" (mouseleave)="holdDropdown = false">
               <a class="dropdown-item pointer dropdown-title d-inline" (mouseenter)="holdDropdown = true">

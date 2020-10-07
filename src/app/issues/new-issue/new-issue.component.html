@@ -1,0 +1,31 @@
+<app-dashboard></app-dashboard>
+
+<div class="container mt-4">
+
+    <div>
+        <span class="title">
+            New issue
+        </span>
+        <a class="light-back-btn float-right" routerLink="/issues">Back</a>
+    </div>
+
+    <div class="row">
+
+        <div class="col-lg-9">
+
+            <app-text-editor [type]="'new-issue'"
+                (comment)="submitNewIssue($event)"></app-text-editor>
+            
+        </div>
+
+        <div class="col-lg-3">
+
+            <app-side-bar
+            (labels)="catchLabels($event)"
+            ></app-side-bar>
+
+        </div>
+
+    </div>
+
+</div>

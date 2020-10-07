@@ -1,7 +1,7 @@
 import { Repo } from './../../shared/interface/repo.interface';
 import { LoginService } from './../../services/login.service';
 
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
