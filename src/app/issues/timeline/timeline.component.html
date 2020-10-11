@@ -1,45 +1,60 @@
+<!-- ISSUE BODY -->
+
 <div class="timeline-comment mt-3">
-    <span>
-        <img [src]="issue.user.avatar_url" class="timeline-comment-avatar" alt="">
-    </span>
+    <div *ngIf="!bodyEditMode">
 
-    <div class="card">
+        <span>
+            <img [src]="issue.user.avatar_url" class="timeline-comment-avatar" alt="">
+        </span>
 
-        <div class="card-header">
+        <div class="card">
 
-            <span class="bold color-black">
-                {{ issue.user.login }}
-            </span>
+            <div class="card-header">
 
-            commented
+                <span class="bold color-black">
+                    {{ issue.user.login }}
+                </span>
 
-            <span *ngIf="dateService.calculateUpdatedAt(issue.created_at).type !== 'now'">
-                {{ dateService.calculateUpdatedAt(issue.created_at).amount }}
-            </span>
+                commented
 
-            {{ dateService.calculateUpdatedAt(issue.created_at).type }}
-            <span *ngIf="dateService.calculateUpdatedAt(issue.created_at).type !== 'now'">
-                ago
-            </span>
+                <span *ngIf="dateService.calculateUpdatedAt(issue.created_at).type !== 'now'">
+                    {{ dateService.calculateUpdatedAt(issue.created_at).amount }}
+                </span>
 
-            <fa-icon [icon]="iconService.faEllipsisH" class="fa-pull-right"></fa-icon>
+                {{ dateService.calculateUpdatedAt(issue.created_at).type }}
+
+                <span *ngIf="dateService.calculateUpdatedAt(issue.created_at).type !== 'now'">
+                    ago
+                </span>
+                <span class="fa-pull-right comment-menu">
+                    <app-dropdown [type]="'issue-body'" [position]="'side-bar'"
+                        (itemSelect)="handleCommentEdit($event)"></app-dropdown>
+                </span>
+
+            </div>
+            <div class="card-body">
+
+                <span *ngIf="issue.body">
+                    {{ issue.body }}
+                </span>
+
+                <span *ngIf="!issue.body" class="font-italic">
+                    No description provided.
+                </span>
+            </div>
 
         </div>
+    </div>
+    <div *ngIf="bodyEditMode" class="text-editor">
 
-        <div class="card-body">
-
-            <span *ngIf="issue.body">
-                {{ issue.body }}
-            </span>
-
-            <span *ngIf="!issue.body" class="font-italic">
-                No description provided.
-            </span>
-
-        </div>
+        <app-text-editor [type]="'issue-body'" [issue]="issue"
+            (issueBody)="handleIssueBodyUpdate($event); bodyEditMode = false" (cancel)="bodyEditMode = false">
+        </app-text-editor>
 
     </div>
 </div>
+
+<!-- TIMELINE -->
 
 <div *ngFor="let date of eventDates">
 
@@ -70,7 +85,7 @@
                 <app-label-badge *ngFor="let label of events[date].labeled" [labelName]="label.label.name">
                 </app-label-badge>
 
-                
+
                 <span *ngIf="events[date].unlabeled.length > 0">
                     and removed
 
@@ -90,7 +105,6 @@
                 </span>
 
             </div>
-
         </div>
 
         <!-- RENAME EVENTS -->
@@ -98,7 +112,6 @@
         <div *ngIf="events[date].renamed.length > 0">
 
             <div *ngFor="let event of events[date].renamed">
-
 
                 <div class="timeline-event">
 
@@ -137,9 +150,7 @@
                     </span>
 
                 </div>
-
             </div>
-
         </div>
 
         <!-- CLOSED EVENTS -->
@@ -178,9 +189,7 @@
                     <div *ngIf="event.event === 'closed'" class="closed-issue-hr"></div>
 
                 </div>
-
             </div>
-
         </div>
 
         <!-- REOPENED EVENTS -->
@@ -192,9 +201,8 @@
                 <div class="timeline-event">
 
                     <span>
-                        <fa-icon [icon]="iconService.faDotCircle"
-                        class="state-circle-icon"
-                        [style.color]="'green'"></fa-icon>
+                        <fa-icon [icon]="iconService.faDotCircle" class="state-circle-icon" [style.color]="'green'">
+                        </fa-icon>
                     </span>
 
                     <span>
@@ -218,10 +226,7 @@
                     </span>
 
                 </div>
-
             </div>
-
-
         </div>
 
         <!-- COMMENTS -->
@@ -230,59 +235,288 @@
 
             <div *ngFor="let event of events[date].comment">
 
-                <div class="timeline-comment pt-2 pb-2">
+                <div class="timeline-comment pt-2 pb-2" *ngIf="!event.edit">
 
-                    
                     <span>
                         <img [src]="event.actor.avatar_url" class="timeline-comment-avatar" alt="">
                     </span>
-                    
+
                     <div class="card">
-                        
                         <div class="card-header">
-                            
+
                             <span class="bold color-black">
                                 {{ event.actor.login }}
                             </span>
-                            
+
                             commented
-                            
-                            <span *ngIf="dateService.calculateUpdatedAt(issue.created_at).type !== 'now'">
-                                {{ dateService.calculateUpdatedAt(issue.created_at).amount }}
+
+                            <span *ngIf="dateService.calculateUpdatedAt(event.created_at).type !== 'now'">
+                                {{ dateService.calculateUpdatedAt(event.created_at).amount }}
                             </span>
-                            
-                            {{ dateService.calculateUpdatedAt(issue.created_at).type }}
-                            <span *ngIf="dateService.calculateUpdatedAt(issue.created_at).type !== 'now'">
+
+                            {{ dateService.calculateUpdatedAt(event.created_at).type }}
+                            <span *ngIf="dateService.calculateUpdatedAt(event.created_at).type !== 'now'">
                                 ago
                             </span>
-                            
-                            <fa-icon [icon]="iconService.faEllipsisH" class="fa-pull-right"></fa-icon>
-                            
-                        </div>
-                        
-                        <div class="card-body">
-                            
-                            <span>
-                                {{ event.comment }}
+
+                            <span class="fa-pull-right comment-menu">
+                                <app-dropdown [type]="'comment-menu'" [position]="'side-bar'"
+                                    (itemSelect)="handleCommentEdit($event, event)"></app-dropdown>
                             </span>
-                            
+
                         </div>
-                        
+
+                        <div class="card-body">
+                            <span> {{ event.comment }} </span>
+                        </div>
                     </div>
                 </div>
 
+                <!-- COMMENT EDIT MODE -->
+
+                <div *ngIf="event.edit" class="text-editor">
+
+                    <app-text-editor [type]="'comment-update'" [issue]="issue" [commentEvent]="event.comment"
+                        (cancel)="event.edit = false"
+                        (commentUpdate)="updateComment($event, event); event.edit = false;">
+                    </app-text-editor>
+
+                </div>
             </div>
+        </div>
+    </div>
+</div>
+
+<!-- TODAYS EVENTS -->
+<div *ngFor="let event of todaysEvents">
+
+    <div *ngIf="event.event === 'labeled'">
+
+        <div class="timeline-event">
+
+            <span class="icon-background">
+                <fa-icon [icon]="iconService.faTag" class="icon"></fa-icon>
+            </span>
+
+            <span>
+                <img [src]="event.actor.avatar_url" class="avatar-small" alt="">
+            </span>
+
+            <span class="bold">
+                {{ event.actor.login }}
+            </span>
+
+            added
+            <app-label-badge [labelName]="event.label.name"></app-label-badge>
+
+            <span *ngIf="dateService.calculateUpdatedAt(event.created_at).type !== 'now'">
+                {{ dateService.calculateUpdatedAt(event.created_at).amount }}
+            </span>
+
+            {{ dateService.calculateUpdatedAt(event.created_at).type }}
+
+            <span *ngIf="dateService.calculateUpdatedAt(event.created_at).type !== 'now'">
+                ago
+            </span>
+
+        </div>
+
+    </div>
+
+    <div *ngIf="event.event === 'unlabeled'">
+
+        <div class="timeline-event">
+
+            <span class="icon-background">
+                <fa-icon [icon]="iconService.faTag" class="icon"></fa-icon>
+            </span>
+
+            <span>
+                <img [src]="event.actor.avatar_url" class="avatar-small" alt="">
+            </span>
+
+            <span class="bold">
+                {{ event.actor.login }}
+            </span>
+
+            removed
+
+            <app-label-badge [labelName]="event.label.name"></app-label-badge>
+
+            <span *ngIf="dateService.calculateUpdatedAt(event.created_at).type !== 'now'">
+                {{ dateService.calculateUpdatedAt(event.created_at).amount }}
+            </span>
+
+            {{ dateService.calculateUpdatedAt(event.created_at).type }}
+
+            <span *ngIf="dateService.calculateUpdatedAt(event.created_at).type !== 'now'">
+                ago
+            </span>
+
+        </div>
+
+    </div>
+
+    <div *ngIf="event.event === 'renamed'">
+
+        <div class="timeline-event">
+
+            <span class="icon-background">
+                <fa-icon class="icon" [icon]="iconService.faPen"></fa-icon>
+            </span>
+            <span>
+                <img [src]="event.actor.avatar_url" class="avatar-small" alt="">
+            </span>
+            <span class="bold">
+                {{ event.actor.login }}
+            </span>
+
+            changed the title
+
+            <span class="cross-text">
+                {{ event.rename.from }}
+            </span>
+
+            to
+            <span class="bold">
+                {{ event.rename.to }}
+            </span>
+
+            <span *ngIf="dateService.calculateUpdatedAt(event.created_at).type !== 'now'">
+                {{ dateService.calculateUpdatedAt(event.created_at).amount}}
+            </span>
+
+            {{ dateService.calculateUpdatedAt(event.created_at).type }}
+
+            <span *ngIf="dateService.calculateUpdatedAt(event.created_at).type !== 'now'">
+                ago
+            </span>
+
+        </div>
+
+    </div>
+
+    <div *ngIf="event.event === 'closed'">
+
+        <div class="timeline-event">
+
+            <span>
+                <fa-icon [icon]="iconService.faBan" class="state-circle-icon" [style.color]="'red'">
+                </fa-icon>
+            </span>
+
+            <span>
+                <img [src]="event.actor.avatar_url" class="avatar-small" alt="">
+            </span>
+
+            <span class="bold">
+                {{ event.actor.login }}
+            </span>
+
+            closed this
+
+            <span *ngIf="dateService.calculateUpdatedAt(event.created_at).type !== 'now'">
+                {{ dateService.calculateUpdatedAt(event.created_at).amount}}
+            </span>
+
+            {{ dateService.calculateUpdatedAt(event.created_at).type }}
+
+            <span *ngIf="dateService.calculateUpdatedAt(event.created_at).type !== 'now'">
+                ago
+            </span>
+
+            <div *ngIf="event.event === 'closed'" class="closed-issue-hr"></div>
+
+
+        </div>
+
+    </div>
+
+    <div *ngIf="event.event === 'reopened'">
+
+        <div class="timeline-event">
+
+            <span>
+                <fa-icon [icon]="iconService.faDotCircle" class="state-circle-icon" [style.color]="'green'"></fa-icon>
+            </span>
+
+            <span>
+                <img [src]="event.actor.avatar_url" class="avatar-small" alt="">
+            </span>
+
+            <span class="bold">
+                {{ event.actor.login }}
+            </span>
+
+            reopened this
+
+            <span *ngIf="dateService.calculateUpdatedAt(event.created_at).type !== 'now'">
+                {{ dateService.calculateUpdatedAt(event.created_at).amount}}
+            </span>
+
+            {{ dateService.calculateUpdatedAt(event.created_at).type }}
+
+            <span *ngIf="dateService.calculateUpdatedAt(event.created_at).type !== 'now'">
+                ago
+            </span>
+
+        </div>
+
+    </div>
+
+    <div *ngIf="event.event === 'comment'">
+
+        <div class="timeline-comment pt-2 pb-2" *ngIf="!event.edit">
+
+            <span>
+                <img [src]="event.actor.avatar_url" class="timeline-comment-avatar" alt="">
+            </span>
+
+            <div class="card">
+                <div class="card-header">
+
+                    <span class="bold color-black">
+                        {{ event.actor.login }}
+                    </span>
+
+                    commented
+
+                    <span *ngIf="dateService.calculateUpdatedAt(event.created_at).type !== 'now'">
+                        {{ dateService.calculateUpdatedAt(event.created_at).amount }}
+                    </span>
+
+                    {{ dateService.calculateUpdatedAt(event.created_at).type }}
+                    <span *ngIf="dateService.calculateUpdatedAt(event.created_at).type !== 'now'">
+                        ago
+                    </span>
+
+                    <span class="fa-pull-right comment-menu">
+                        <app-dropdown [type]="'comment-menu'" [position]="'side-bar'"
+                            (itemSelect)="handleCommentEdit($event, event)"></app-dropdown>
+                    </span>
+
+                </div>
+
+                <div class="card-body">
+                    <span> {{ event.comment }} </span>
+                </div>
+                
+            </div>
+        </div>
+
+        <div *ngIf="event.edit" class="text-editor">
+
+            <app-text-editor [type]="'comment-update'" [issue]="issue" [commentEvent]="event.comment"
+                (cancel)="event.edit = false" (commentUpdate)="updateComment($event, event); event.edit = false;">
+            </app-text-editor>
 
         </div>
 
     </div>
 </div>
-<div>
-    <app-text-editor 
-    [type]="'comment'" 
-    [issue]="issue"
-    (reopenIssue)="handleReopenEvent()"
-    (closeIssue)="handleCloseEvent()"
-    (comment)="handleCommentEvent($event)">
+
+<div class="text-editor">
+    <app-text-editor [type]="'comment'" [issue]="issue" (reopenIssue)="handleReopenEvent()"
+        (closeIssue)="handleCloseEvent()" (comment)="handleCommentEvent($event)">
     </app-text-editor>
 </div>

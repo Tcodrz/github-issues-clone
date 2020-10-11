@@ -24,7 +24,7 @@ export class IssueInfoService {
 
   constructor(
     private apiService: ApiService,
-    private liseState: ListStateService
+    private liseState: ListStateService,
   ) { }
 
   getIssueFromApi(issueNumber: number): Promise<Issue> {
@@ -49,4 +49,6 @@ export class IssueInfoService {
     }
     this.liseState.setSelectedLabels(this.activeLabels);
   }
+
+
 }

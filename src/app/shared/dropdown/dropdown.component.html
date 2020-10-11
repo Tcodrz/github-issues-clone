@@ -1,43 +1,73 @@
-
 <span class="dropdown-menu-container" [ngClass]="type === 'Filters' ? 'filter-dropdown' : ''">
-    <div class="dropdown-menu-button" dropdown [insideClick]="holdDropdown"
+
+  <div class="dropdown-menu-button" dropdown [insideClick]="holdDropdown"
     [ngClass]="position === 'sidebar' ? 'd-block' : ''">
-        <a dropdownToggle type="button" [ngClass]="type === 'Filters' ? 'filters-btn' : ''"
-          class="dropdown-menu-button-link"
-          [ngClass]="position !== 'sidebar' ? 'dropdown-toggle' : 'dropdown-title-lg'">
-                {{ type }} 
-              <fa-icon [icon]="iconService.faCog" *ngIf="position === 'sidebar'" class="cog-icon"></fa-icon>
+
+    <a *ngIf="showType" 
+      dropdownToggle type="button" class="dropdown-menu-button-link"
+      [ngClass]="type === 'Filters' ? 'filters-btn' : ''"
+      [ngClass]="position !== 'sidebar' ? 'dropdown-toggle' : 'dropdown-title-lg'">
+
+      {{ type }}
+
+      <fa-icon [icon]="iconService.faCog" *ngIf="position === 'sidebar'" class="cog-icon"></fa-icon>
+
+    </a>
+
+    <a dropdownToggle *ngIf="type === 'comment-menu' || type === 'issue-body'" 
+        class="dropdown-menu-button-link">
+
+      <fa-icon [icon]="iconService.faEllipsisH" class="fa-pull-right pointer comment-menu"></fa-icon>
+
+    </a>
+
+    <div *ngIf="position === 'sidebar'">
+
+      <span class="items-counter">
+
+        {{ selectedItems.length < 1  && type ==='Projects' ? 'None yet' : ''}}
+        {{ selectedItems.length < 1 && type === 'Assignees' ? 'No one - assign yourself' : '' }}
+        {{ selectedItems.length < 1 && type === 'Milestones' ? 'No milestones' : '' }}
+
+      </span>
+
+    </div>
+
+    <ul *dropdownMenu class="dropdown-menu" role="menu">
+
+      <li *ngIf="showSubtitle" 
+        role="menuitem" class="font-size-12 dropdown-title-container" 
+        (mouseleave)="holdDropdown = false">
+
+        <a class="dropdown-item pointer dropdown-title d-inline" (mouseenter)="holdDropdown = true">
+          {{ subtitle }}
         </a>
 
-        <div *ngIf="position === 'sidebar'">
-          <span class="items-counter">
-            {{ selectedItems.length < 1  && type ==='Projects' ? 'None yet' : ''}}
-            {{ selectedItems.length < 1 && type === 'Assignees' ? 'No one - assign yourself' : '' }}
-            {{ selectedItems.length < 1 && type === 'Milestones' ? 'No milestones' : '' }}
-          </span>
-        </div>
+        <span class="fa-pull-right mr-2" (mouseenter)="holdDropdown = false">
+          <fa-icon [icon]="iconService.faTimes" class="pointer times-icon"></fa-icon>
+        </span>
 
-        <ul *dropdownMenu class="dropdown-menu" role="menu">
-          <li role="menuitem" class="font-size-12 dropdown-title-container" (mouseleave)="holdDropdown = false">
-              <a class="dropdown-item pointer dropdown-title d-inline" (mouseenter)="holdDropdown = true">
-                  {{ subtitle }} 
-                </a>
-                <span class="fa-pull-right mr-2" (mouseenter)="holdDropdown = false">
-                  <fa-icon [icon]="iconService.faTimes" class="pointer times-icon"></fa-icon>
-                </span>
-            </li>
-          <hr class="dropdown-hr">
-          <li role="menuitem" *ngFor="let item of items; let i = index" class="font-size-14">
-              <a class="dropdown-item pointer" (click)="sendEvent(item)"> 
-                <fa-icon [icon]="iconService.faCheck" class="check-icon" *ngIf="item.isSelected"></fa-icon>
-                <span class="margin-left-10" [ngClass]="item.isSelected ? 'bold' : ''">
-                  {{ item.name }} 
-                </span>
-                </a>
-                  
-                <hr class="dropdown-hr" *ngIf="i !== items.length - 1">
-            </li>
-        </ul>
-      </div>
-    
+      </li>
+
+      <hr *ngIf="showSubtitle" class="dropdown-hr">
+
+      <li role="menuitem" *ngFor="let item of items; let i = index" 
+      class="font-size-14">
+
+        <a class="dropdown-item pointer" (click)="sendEvent(item)" [ngClass]="item.name === 'Delete' ? 'color-red' : ''">
+
+          <fa-icon [icon]="iconService.faCheck" class="check-icon" *ngIf="item.isSelected"></fa-icon>
+
+          <span class="margin-left-10" [ngClass]="item.isSelected ? 'bold' : ''">
+            {{ item.name }}
+          </span>
+
+        </a>
+
+        <hr class="dropdown-hr" *ngIf="i !== items.length - 1">
+        
+      </li>
+    </ul>
+  </div>
+
 </span>

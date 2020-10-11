@@ -1,3 +1,4 @@
+import { EventService } from './../../services/event.service';
 import { IconService } from './../../services/icon.service';
 import { DateService } from './../../services/date.service';
 import { Issue } from './../../shared/interface/issue.interface';
@@ -20,11 +21,15 @@ export class TimelineComponent implements OnInit {
 
   todaysEvents: IssueEvent[] = [];
 
+  bodyEditMode = false;
+
+  commentEditMode = false;
 
   constructor(
     private timelineService: TimelineService,
     public dateService: DateService,
-    public iconService: IconService
+    public iconService: IconService,
+    private eventService: EventService,
   ) { }
 
   ngOnInit(): void {
@@ -43,15 +48,50 @@ export class TimelineComponent implements OnInit {
 
   handleCommentEvent(value: any): void {
     const comment = value.comment;
-    console.log(comment);
+    this.eventService.handleCommentEvent(comment, this.issue.number).then(() => {
+      this.issue.comments++;
+    });
   }
 
   handleReopenEvent(): void {
     console.log('reopen');
+    this.eventService.handleReopenEvent(this.issue).then(() => {
+      this.issue.state = 'open';
+    });
   }
 
   handleCloseEvent(): void {
     console.log('close');
+    this.eventService.handleCloseEvent(this.issue).then(() => {
+      this.issue.state = 'closed';
+    });
+
+  }
+
+  handleCommentEdit(event: {name: string, type: string }, issueEvent?: IssueEvent): void {
+    if (event.type === 'issue-body') {
+      this.bodyEditMode = true;
+    }
+    if (event.type === 'comment') {
+      if (event.name === 'Edit') {
+        issueEvent.edit = true;
+      } 
+      if (event.name === 'Delete') {
+        this.eventService.handleCommentDelete(issueEvent);
+        this.issue.comments--;
+      }
+    }
+  }
+
+  handleIssueBodyUpdate(event: string): void {
+    console.log(event);
+    this.eventService.handleIssueBodyUpdate(this.issue.number, event);
+    this.issue.body = event;
+  }
+  updateComment(comment: string, event: IssueEvent): void {
+    this.eventService.handleCommentUpdate(comment, event.id);
+    event.comment = comment;
+
   }
 
 }

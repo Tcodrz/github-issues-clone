@@ -23,7 +23,6 @@ export class NewIssueComponent {
   }
 
   submitNewIssue(event: { title: string, comment: string }): void {
-    console.log(event);
     const issue: Issue = {
       title: event.title,
       body: event.comment,

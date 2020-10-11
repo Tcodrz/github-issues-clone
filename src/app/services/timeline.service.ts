@@ -41,6 +41,8 @@ export class TimelineService {
 
       const comments = await this.getCommentsFromApi(issueNumber);
 
+      comments.forEach((comment: IssueEvent) => comment.edit = false);
+
       const commentEvents = await this.commentsToEvents(comments);
 
       events = events.concat(commentEvents);
@@ -60,6 +62,28 @@ export class TimelineService {
   addEvent(value: IssueEvent): void {
     this.todaysEvents.push(value);
     this.events.next({ ...this.events.getValue(), todaysEvents: this.todaysEvents });
+  }
+
+  removeEvent(event: IssueEvent): void {
+
+    let index: number;
+
+    for (const date in this.eventsObject) {
+      for (const array in this.eventsObject[date]) {
+        index = this.eventsObject[date][array].findIndex(x => x.id === event.id);
+        if (index >= 0) {
+          this.eventsObject[date][array].splice(index , 1);
+        }
+      }
+    }
+
+    if (index < 0 || !index) {
+      index = this.todaysEvents.findIndex(x => x.id === event.id);
+      this.todaysEvents.splice(index , 1);
+    }
+
+    this.events.next({ ...this.events.getValue() });
+
   }
 
   private sortEventsByDate(events: IssueEvent[]): Promise<{ eventObject: object, todaysEvents: IssueEvent[] }> {
@@ -161,9 +185,7 @@ export class TimelineService {
   }
 
   private getCommentsFromApi(issueNumber: number): Promise<IssueComment[]> {
-
     return this.apiService.getIssueComments(issueNumber).toPromise();
-
   }
 
   private commentsToEvents(comments: IssueComment[]): Promise<IssueEvent[]> {

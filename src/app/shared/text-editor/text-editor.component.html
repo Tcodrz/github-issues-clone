@@ -1,4 +1,4 @@
-<div class="row mt-3">
+<div class="row mt-3" *ngIf="type === 'comment' || type === 'new-issue'">
 
     <div class="col-lg-1">
         <img [src]="user ? user.avatar_url : null" alt="user_avatar" class="avatar">
@@ -23,7 +23,7 @@
             </div>
 
             <div class="card-body comment-card-body">
-                <form (ngSubmit)="sendEvent()">
+                <form #frmComment="ngForm" (ngSubmit)="sendEvent()">
                     <textarea cols="30" rows="7" (keyup)="disableButtonOnComment()"
                         [(ngModel)]="commentInput" name="comment"
                         class="form-control comment-input" placeholder="Leave a comment"></textarea>
@@ -66,4 +66,103 @@
         </div>
 
     </div>
+</div>
+
+<div *ngIf="type === 'issue-body'">
+
+    <div class="row">
+        <div class="col-lg-1">
+            <img [src]="user ? user.avatar_url : null" alt="user_avatar" class="avatar">
+        </div>
+
+        <div class="col-lg-8">
+
+            <div class="card comment-card">
+
+                <div class="card-header comment-card-header-darker">
+                    <ul class="nav nav-tabs card-header-tabs">
+                        <li class="nav-item">
+                            <a class="nav-link active">Write</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="card-body comment-card-body">
+                    <form (ngSubmit)="sendIssueBody()">
+
+                        <textarea class="form-control comment-input"
+                            name="issue-body" cols="30" rows="7" 
+                            [(ngModel)]="issue.body" placeholder="Leave a comment"
+                            #issueBody
+                            (keyup)="handleIssueBodySubmitButton(issueBody.value)">
+                        </textarea>
+
+                        <button type="submit" [disabled]="issueBodySubmit"
+                            class="btn btn-success btn-sm fa-pull-right mt-3">
+                            Update comment
+                        </button>
+
+                        <button type="button" (click)="cancel.emit(null)"
+                            class="reopen-btn fa-pull-right mt-3 mr-2 color-red">
+                            Cancel
+                        </button>
+
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div *ngIf="type === 'comment-update'">
+
+    <div class="row">
+
+        <div class="col-lg-1">
+            <img [src]="user ? user.avatar_url : null" alt="user_avatar" class="avatar">
+        </div>
+
+        <div class="col-lg-8">
+
+            <div class="card comment-card">
+
+                <div class="card-header comment-card-header-darker">
+                    <ul class="nav nav-tabs card-header-tabs">
+                        <li class="nav-item">
+                            <a class="nav-link active">Write</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="card-body comment-card-body">
+
+                    <form (ngSubmit)="sendUpdateComment()">
+
+                        <textarea name="comment-update" cols="30" rows="7"
+                            class="form-control comment-input" 
+                            [(ngModel)]="commentEvent"
+                            (keyup)="handleUpdateCommentButton()">
+                        </textarea>
+
+                        <button type="submit" [disabled]="updateCommentBtnDisabled"
+                            class="btn btn-success btn-sm fa-pull-right mt-3">
+                            Update comment
+                        </button>
+
+                        <button type="button" (click)="cancel.emit(null)"
+                            class="reopen-btn fa-pull-right mt-3 mr-2 color-red">
+                            Cancel
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
 </div>

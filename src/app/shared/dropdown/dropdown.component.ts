@@ -14,6 +14,9 @@ export interface DropDownItem {
 })
 export class DropdownComponent implements OnInit {
 
+  showType = true;
+  showSubtitle = true;
+
   @Input() position: string;
 
   @Input() type: string;
@@ -68,6 +71,26 @@ export class DropdownComponent implements OnInit {
       isSelected: false
     }
   ];
+  commentMenuItems: DropDownItem[] = [
+    {
+      type: 'comment',
+      name: 'Edit',
+      isSelected: false
+    },
+    {
+      type: 'comment',
+      name: 'Delete',
+      isSelected: false
+    }
+  ];
+
+  issueBodyItems: DropDownItem[] = [
+    {
+      type: 'issue-body',
+      name: 'Edit',
+      isSelected: false
+    }
+  ]
 
   holdDropdown = false;
 
@@ -88,11 +111,26 @@ export class DropdownComponent implements OnInit {
       this.subtitle = 'Actions';
       this.items = this.markAsItems;
     }
+    if (this.type === 'comment-menu') {
+      this.subtitle = '';
+      this.items = this.commentMenuItems;
+      this.showType = false;
+      this.showSubtitle = false;
+    }
+    if (this.type === 'issue-body') {
+      this.subtitle = '';
+      this.items = this.issueBodyItems;
+      this.showType = false;
+      this.showSubtitle = false;
+    }
   }
 
   sendEvent(item: DropDownItem): void {
     this.items.forEach(i => i.isSelected = false);
-    if (item.type !== 'state') {
+    if (item.type === 'state' || item.type === 'comment' || item.type === 'issue-body') {
+      this.itemSelect.emit(item);
+      return;
+    } else {
       item.isSelected = true;
     }
     this.itemSelect.emit(item);

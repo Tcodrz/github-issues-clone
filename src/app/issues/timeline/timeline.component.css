@@ -6,7 +6,7 @@
   display: inline-block;
   border-radius: 6px;
   border-color: #c0d3eb;
-  width: 93%;
+  width: 91.5%;
 }
 .card-header {
   padding-top: 8px;
@@ -67,8 +67,16 @@
     right: 14%;
     background-color: #fff;
     padding-bottom: 20px;
-  }
+}
+
+.comment-menu:hover {
+  color: var(--link-hover-color);
+}
+.text-editor {
+  margin-left: -20px;
+}
 
 .color-black {
   color: #24292e;
 }
+

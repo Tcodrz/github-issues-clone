@@ -10,6 +10,9 @@
 .comment-card-header-dark {
     background-color:#f6f8fa;
 }
+.comment-card-header-darker {
+    background-color:#f1f8ff;
+}
 .comment-input {
     background-color: #fafbfc;
 }
@@ -76,4 +79,7 @@
 .btn-success:focus { 
     outline: none;
     box-shadow: none;
+}
+.color-red {
+    color: var(--red-color);
 }

@@ -60,6 +60,20 @@ export class ApiService {
         { labels }).toPromise();
   }
 
+  updateIssueBody(issueNumber: number, issueBody: string): Observable<Issue> {
+    return this.http.patch<Issue>(
+      `${this.apiUrl}/repos/${this.userDetails.username}/${this.userDetails.repoName}/issues/${issueNumber}`,
+      { body: issueBody }
+    );
+  }
+
+  updateIssueTitle(issueNumer: number, newTitle: string): Observable<Issue> {
+    return this.http.patch<Issue>(
+      `${this.apiUrl}/repos/${this.userDetails.username}/${this.userDetails.repoName}/issues/${issueNumer}`,
+      { title: newTitle }
+    );
+  }
+
   markIssueOpen(issue: Issue): void {
     this.http.patch<Issue>(
       `${this.apiUrl}/repos/${this.userDetails.username}/${this.userDetails.repoName}/issues/${issue.number}`, {state: 'open'}
@@ -80,6 +94,24 @@ export class ApiService {
   getIssueComments(issueNumber: number): Observable<IssueComment[]> {
     return this.http.get<IssueComment[]>(
       `${this.apiUrl}/repos/${this.userDetails.username}/${this.userDetails.repoName}/issues/${issueNumber}/comments`
+    );
+  }
+
+  createNewComment(issueNumber: number, commentEvent: IssueComment): Observable<IssueComment> {
+    return this.http.post<IssueComment>(
+      `${this.apiUrl}/repos/${this.userDetails.username}/${this.userDetails.repoName}/issues/${issueNumber}/comments`, commentEvent
+    );
+  }
+
+  updateCommentById(commentId: number, commentBody: string): Observable<IssueComment> {
+    return this.http.patch<IssueComment>(
+      `${this.apiUrl}/repos/${this.userDetails.username}/${this.userDetails.repoName}/issues/comments/${commentId}`, { body: commentBody }
+    );
+  }
+
+  removeCommentById(commentId: number): Observable<null> {
+    return this.http.delete<null>(
+      `${this.apiUrl}/repos/${this.userDetails.username}/${this.userDetails.repoName}/issues/comments/${commentId}`
     );
   }
 

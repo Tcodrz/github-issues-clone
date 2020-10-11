@@ -1,3 +1,5 @@
+import { EventService } from './../../services/event.service';
+import { Label } from './../../shared/interface/label.interface';
 import { DateService } from './../../services/date.service';
 import { IconService } from './../../services/icon.service';
 import { Issue } from './../../shared/interface/issue.interface';
@@ -20,6 +22,7 @@ export class IssueInfoComponent implements OnInit, OnDestroy {
   constructor(
     private issueInfoService: IssueInfoService,
     private activeRoute: ActivatedRoute,
+    private eventService: EventService,
     public iconService: IconService,
     public dateService: DateService
   ) { }
@@ -37,14 +40,17 @@ export class IssueInfoComponent implements OnInit, OnDestroy {
     });
   }
 
-  handleLabelEvent(event): void {
-    console.log(event);
+  handleLabelEvent(label: Label): void {
+    console.log(label);
+    this.eventService.handleLabelEvent(label, this.issue);
   }
 
   saveTitle(): void {
     console.log('last title: ', this.title);
     console.log('New title: ', this.issue.title);
-    this.titleEditMode = false;
+    this.eventService.handleIssueTitleUpdate(this.issue, this.issue.title, this.title).then(() => {
+      this.titleEditMode = false;
+    });
   }
 
 }

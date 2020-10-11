@@ -1,5 +1,5 @@
 import { Label } from './../../shared/interface/label.interface';
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-side-bar',
@@ -8,15 +8,21 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 })
 export class SideBarComponent implements OnInit {
 
+  @Input() type: string;
+
   @Output() labels: EventEmitter<Label[]> = new EventEmitter();
+  @Output() label: EventEmitter<Label> = new EventEmitter();
 
   constructor() { }
 
   ngOnInit(): void {
   }
 
-  handleLabelEvent(labels: Label[]): void {
+  handleLabelsEvent(labels: Label[]): void {
     this.labels.emit(labels);
+  }
+  handleLabelEvent(label: Label): void {
+    this.label.emit(label);
   }
 
 }

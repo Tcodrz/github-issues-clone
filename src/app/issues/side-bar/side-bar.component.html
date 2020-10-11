@@ -3,10 +3,13 @@
         <app-dropdown [type]="'Assignees'" [position]="'sidebar'"></app-dropdown>
     </li>
     <hr>
-    <li>
-        <app-label-dropdown 
-            [type]="'select'" [position]="'sidebar'"
-            (labelArray)="handleLabelEvent($event);"></app-label-dropdown>
+    <li *ngIf="type === 'new-issue'">
+        <app-label-dropdown [type]="'select'" [position]="'sidebar'" (labelArray)="handleLabelsEvent($event);">
+        </app-label-dropdown>
+    </li>
+    <li *ngIf="type === 'timeline'">
+        <app-label-dropdown [type]="'select'" [position]="'sidebar'" (labelEvent)="handleLabelEvent($event);">
+        </app-label-dropdown>
     </li>
     <hr>
     <li>

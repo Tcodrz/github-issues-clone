@@ -38,10 +38,7 @@
 
                 
                 <span class="issue-state-badge" [ngClass]="issue.state === 'open' ? 'bg-green' : 'bg-red'">
-                    
                     <fa-icon class="icon-exclemation" [ngClass]="issue.state === 'open' ? 'c-green' : 'c-red'" [icon]="iconService.faExclamationCircle"></fa-icon>
-                    
-                    
                         {{ issue.state | titlecase }}
                 </span>
 
@@ -68,13 +65,9 @@
                     <span>
                         {{issue.comments}} comments
                     </span>
-                    
-                    
                 </span>
             </div>
-            
         </div>
-
     </div>
 
     <hr>
@@ -90,7 +83,7 @@
 
         <div class="col-lg-3">
 
-            <app-side-bar (labels)="handleLabelEvent($event)"></app-side-bar>
+            <app-side-bar [type]="'timeline'" (label)="handleLabelEvent($event)"></app-side-bar>
 
         </div>
 
